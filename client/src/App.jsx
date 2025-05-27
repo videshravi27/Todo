@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SignIn, SignedIn, SignedOut } from "@clerk/clerk-react";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
-import Dashboard from "./components/DashBoard";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
