@@ -11,7 +11,7 @@ function Navbar() {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const res = await fetch("http://localhost:4000/auth/details", {
+                const res = await fetch("https://todo-js6q.onrender.com/auth/details", {
                     method: "GET",
                     credentials: "include",
                 });
@@ -32,7 +32,7 @@ function Navbar() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch("http://localhost:4000/auth/logout", {
+            const response = await fetch("https://todo-js6q.onrender.com/auth/logout", {
                 method: "POST",
                 credentials: "include",
             });

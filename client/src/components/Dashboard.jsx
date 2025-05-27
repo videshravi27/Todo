@@ -18,7 +18,7 @@ function Dashboard() {
                 imageUrl: user.imageUrl || "",
             };
 
-            fetch("http://localhost:4000/auth/login", {
+            fetch("https://todo-js6q.onrender.com/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +38,7 @@ function Dashboard() {
 
     const handleLogout = async () => {
         try {
-            await fetch("http://localhost:4000/auth/logout", {
+            await fetch("https://todo-js6q.onrender.com/auth/logout", {
                 method: "POST",
                 credentials: "include",
             });

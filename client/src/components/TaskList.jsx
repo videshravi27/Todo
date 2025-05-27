@@ -17,7 +17,7 @@ const TaskList = ({ tasks, refreshTasks }) => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`http://localhost:4000/tasks/${editingTask}`, {
+            const res = await fetch(`https://todo-js6q.onrender.com/tasks/${editingTask}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -36,7 +36,7 @@ const TaskList = ({ tasks, refreshTasks }) => {
 
     const handleDelete = async (taskId) => {
         try {
-            const res = await fetch(`http://localhost:4000/tasks/${taskId}`, {
+            const res = await fetch(`https://todo-js6q.onrender.com/tasks/${taskId}`, {
                 method: "DELETE",
                 credentials: "include",
             });
@@ -51,7 +51,7 @@ const TaskList = ({ tasks, refreshTasks }) => {
 
     const handleStatusUpdate = async (taskId) => {
         try {
-            const res = await fetch(`http://localhost:4000/tasks/${taskId}`, {
+            const res = await fetch(`https://todo-js6q.onrender.com/tasks/${taskId}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",

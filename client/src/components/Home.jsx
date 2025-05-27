@@ -11,7 +11,7 @@ const Home = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("http://localhost:4000/tasks/", {
+      const res = await fetch("https://todo-js6q.onrender.com/tasks/", {
         method: "GET",
         credentials: "include",
       });
@@ -36,7 +36,7 @@ const Home = () => {
     setPosting(true);
 
     try {
-      const res = await fetch("http://localhost:4000/tasks/", {
+      const res = await fetch("https://todo-js6q.onrender.com/tasks/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
