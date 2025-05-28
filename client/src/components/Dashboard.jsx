@@ -14,35 +14,39 @@ function Dashboard() {
 
         const existingId = localStorage.getItem("clerkUserId");
 
-        if (!existingId && user.id) {
-            localStorage.setItem("clerkUserId", user.id);
-            console.log("Stored Clerk User ID in localStorage:", user.id);
+        const performLogin = async () => {
+            try {
+                if (!existingId && user.id) {
+                    localStorage.setItem("clerkUserId", user.id);
+                    console.log("Stored Clerk User ID in localStorage:", user.id);
 
-            const payload = {
-                clerkId: user.id,
-                email: user.primaryEmailAddress?.emailAddress || "",
-                name: user.fullName || "",
-                imageUrl: user.imageUrl || "",
-            };
+                    const payload = {
+                        clerkId: user.id,
+                        email: user.primaryEmailAddress?.emailAddress || "",
+                        name: user.fullName || "",
+                        imageUrl: user.imageUrl || "",
+                    };
 
-            fetch(`${BACKEND_URL}/auth/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(payload),
-            })
-                .then(async (res) => {
+                    const res = await fetch(`${BACKEND_URL}/auth/login`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include",
+                        body: JSON.stringify(payload),
+                    });
+
                     const data = await res.json();
                     console.log("Backend login response:", data);
-                })
-                .catch((err) => {
-                    console.error("Login request failed:", err);
-                });
-        } else {
-            setLoginComplete(true);
-        }
+                }
+            } catch (err) {
+                console.error("Login request failed:", err);
+            } finally {
+                setLoginComplete(true);
+            }
+        };
+
+        performLogin();
     }, [user]);
 
     const handleLogout = async () => {
