@@ -1,4 +1,4 @@
-“This project is a part of a hackathon run by https://www.katomaran.com"
+![ChatGPT Image May 28, 2025, 12_14_49 PM](https://github.com/user-attachments/assets/b466fa20-8f1d-420f-83a0-caf11dd8a97a)“This project is a part of a hackathon run by https://www.katomaran.com"
 
 # 📝 Taskify - Todo Task Management Web Application
 
@@ -44,8 +44,16 @@ A full-stack Todo Task Management Web Application built using the **MERN** stack
 
 ---
 
+### Architecture
+- https://drive.google.com/file/d/1t-IfKzZIPsEzBMAnKGeGazdcwruN1l5a/view?usp=sharing
+
+---
+
 ### Working
 - https://drive.google.com/file/d/1IY1BwLcdHjf36EYhfoNo4bcnuHFriSFh/view?usp=sharing
+
+---
+
 
 ### Prerequisites:
 - Node.js and npm
