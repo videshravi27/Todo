@@ -2,6 +2,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useClerk } from "@clerk/clerk-react";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 function Navbar() {
     const [name, setName] = useState("");
     const location = useLocation();
@@ -11,7 +13,7 @@ function Navbar() {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const res = await fetch("https://todo-js6q.onrender.com/auth/details", {
+                const res = await fetch(`${BACKEND_URL}/auth/details`, {
                     method: "GET",
                     credentials: "include",
                 });
@@ -32,7 +34,7 @@ function Navbar() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch("https://todo-js6q.onrender.com/auth/logout", {
+            const response = await fetch(`${BACKEND_URL}/auth/logout`, {
                 method: "POST",
                 credentials: "include",
             });

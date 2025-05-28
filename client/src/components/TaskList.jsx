@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const TaskList = ({ tasks, refreshTasks }) => {
     const [editingTask, setEditingTask] = useState(null);
     const [formData, setFormData] = useState({ title: "", description: "", dueDate: "" });
@@ -10,14 +12,14 @@ const TaskList = ({ tasks, refreshTasks }) => {
         setFormData({
             title: task.title,
             description: task.description,
-            dueDate: task.dueDate?.slice(0, 10) || "", // Extract only the date part
+            dueDate: task.dueDate?.slice(0, 10) || "",
         });
     };
 
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`https://todo-js6q.onrender.com/tasks/${editingTask}`, {
+            const res = await fetch(`${BACKEND_URL}/tasks/${editingTask}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -36,7 +38,7 @@ const TaskList = ({ tasks, refreshTasks }) => {
 
     const handleDelete = async (taskId) => {
         try {
-            const res = await fetch(`https://todo-js6q.onrender.com/tasks/${taskId}`, {
+            const res = await fetch(`${BACKEND_URL}/tasks/${taskId}`, {
                 method: "DELETE",
                 credentials: "include",
             });
@@ -51,7 +53,7 @@ const TaskList = ({ tasks, refreshTasks }) => {
 
     const handleStatusUpdate = async (taskId) => {
         try {
-            const res = await fetch(`https://todo-js6q.onrender.com/tasks/${taskId}`, {
+            const res = await fetch(`${BACKEND_URL}/tasks/${taskId}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",

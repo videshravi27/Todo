@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useUser, useClerk } from "@clerk/clerk-react";
 import Home from "./Home";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 function Dashboard() {
     const { user } = useUser();
     const { signOut } = useClerk();
@@ -18,7 +20,7 @@ function Dashboard() {
                 imageUrl: user.imageUrl || "",
             };
 
-            fetch("https://todo-js6q.onrender.com/auth/login", {
+            fetch(`${BACKEND_URL}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +40,7 @@ function Dashboard() {
 
     const handleLogout = async () => {
         try {
-            await fetch("https://todo-js6q.onrender.com/auth/logout", {
+            await fetch(`${BACKEND_URL}/auth/logout`, {
                 method: "POST",
                 credentials: "include",
             });

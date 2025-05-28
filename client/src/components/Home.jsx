@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import TaskList from "./TaskList";
 import TaskFormModal from "./TaskFormModal";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Home = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ const Home = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("https://todo-js6q.onrender.com/tasks/", {
+      const res = await fetch(`${BACKEND_URL}/tasks/`, {
         method: "GET",
         credentials: "include",
       });
@@ -36,7 +38,7 @@ const Home = () => {
     setPosting(true);
 
     try {
-      const res = await fetch("https://todo-js6q.onrender.com/tasks/", {
+      const res = await fetch(`${BACKEND_URL}/tasks/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
