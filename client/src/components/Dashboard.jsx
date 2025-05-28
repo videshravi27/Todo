@@ -7,9 +7,10 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 function Dashboard() {
     const { user } = useUser();
     const { signOut } = useClerk();
+    const [loginComplete, setLoginComplete] = useState(false);
 
     useEffect(() => {
-        if (!user) return; 
+        if (!user) return;
 
         const existingId = localStorage.getItem("clerkUserId");
 
@@ -39,6 +40,8 @@ function Dashboard() {
                 .catch((err) => {
                     console.error("Login request failed:", err);
                 });
+        } else {
+            setLoginComplete(true);
         }
     }, [user]);
 
@@ -60,7 +63,7 @@ function Dashboard() {
 
     return (
         <div className="min-h-screen p-4">
-            <Home />
+            {loginComplete ? <Home /> : <p>Logging in...</p>}
         </div>
     );
 }
