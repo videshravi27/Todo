@@ -9,7 +9,11 @@ function Dashboard() {
     const { signOut } = useClerk();
 
     useEffect(() => {
-        if (user?.id) {
+        if (!user) return; 
+
+        const existingId = localStorage.getItem("clerkUserId");
+
+        if (!existingId && user.id) {
             localStorage.setItem("clerkUserId", user.id);
             console.log("Stored Clerk User ID in localStorage:", user.id);
 
@@ -56,19 +60,6 @@ function Dashboard() {
 
     return (
         <div className="min-h-screen p-4">
-            {/* <div className="flex justify-between items-center mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold">Welcome, {user.fullName || "User"}!</h1>
-                    <p className="text-sm text-gray-600">Your Clerk ID: <code>{user.id}</code></p>
-                </div>
-                <button
-                    onClick={handleLogout}
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                >
-                    Logout
-                </button>
-            </div> */}
-
             <Home />
         </div>
     );
