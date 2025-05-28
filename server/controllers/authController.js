@@ -7,30 +7,82 @@ const JWT_EXPIRES_IN = "2d";
 const loginUser = async (req, res) => {
   try {
     const { clerkId, email, name, imageUrl } = req.body;
-
     if (!clerkId || !email) {
       return res.status(400).json({ message: "Missing required user fields." });
     }
 
     let user = await User.findOne({ clerkId });
-    if (!user) {
-      user = await User.create({ clerkId, email, name, imageUrl });
-    } else {
-      user.email = email;
-      user.name = name;
-      user.imageUrl = imageUrl;
-      await user.save();
+    if (user) {
+      const token = jwt.sign(
+        { id: user._id, clerkId: user.clerkId },
+        JWT_SECRET,
+        {
+          expiresIn: JWT_EXPIRES_IN,
+        }
+      );
+      return res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "None",
+          maxAge: 2 * 24 * 60 * 60 * 1000,
+        })
+        .status(200)
+        .json({
+          token,
+          user: {
+            id: user._id,
+            clerkId: user.clerkId,
+            email: user.email,
+            name: user.name,
+            imageUrl: user.imageUrl,
+          },
+          message: "User already exists",
+        });
     }
 
-    const token = jwt.sign(
-      { id: user._id, clerkId: user.clerkId },
-      JWT_SECRET,
-      {
-        expiresIn: JWT_EXPIRES_IN,
-      }
-    );
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      if (!emailExists.clerkId) {
+        emailExists.clerkId = clerkId;
+        await emailExists.save();
 
-    res
+        const token = jwt.sign({ id: emailExists._id, clerkId }, JWT_SECRET, {
+          expiresIn: JWT_EXPIRES_IN,
+        });
+
+        return res
+          .cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+            maxAge: 2 * 24 * 60 * 60 * 1000,
+          })
+          .status(200)
+          .json({
+            token,
+            user: {
+              id: emailExists._id,
+              clerkId,
+              email: emailExists.email,
+              name: emailExists.name,
+              imageUrl: emailExists.imageUrl,
+            },
+            message: "User updated with clerkId",
+          });
+      }
+
+      return res
+        .status(409)
+        .json({ message: "Email already in use with a different account." });
+    }
+
+    const newUser = await User.create({ clerkId, email, name, imageUrl });
+    const token = jwt.sign({ id: newUser._id, clerkId }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN,
+    });
+
+    return res
       .cookie("token", token, {
         httpOnly: true,
         secure: true,
@@ -40,14 +92,21 @@ const loginUser = async (req, res) => {
       .status(200)
       .json({
         token,
-        user: user.clerkId,
+        user: {
+          id: newUser._id,
+          clerkId,
+          email: newUser.email,
+          name: newUser.name,
+          imageUrl: newUser.imageUrl,
+        },
         message: "Login successful",
       });
   } catch (err) {
-    console.error(err);
+    console.error("Login failed:", err);
     res.status(500).json({ message: "Login failed" });
   }
 };
+
 
 const logoutUser = (req, res) => {
   res.clearCookie("token", {

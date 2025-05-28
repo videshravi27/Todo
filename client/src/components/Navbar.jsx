@@ -42,12 +42,12 @@ function Navbar() {
       })
 
       if (!response.ok) throw new Error("Backend logout failed")
-      localStorage.clear()
+      localStorage.removeItem("clerkUserId")
       await signOut()
-      navigate("/login")
+      navigate("/")
     } catch (error) {
       console.error("Logout failed:", error)
-      navigate("/login")
+      navigate("/")
     }
   }
 

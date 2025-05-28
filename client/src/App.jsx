@@ -1,6 +1,7 @@
 "use client"
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { SignIn, SignedIn, SignedOut, useUser } from "@clerk/clerk-react"
 import Navbar from "./components/Navbar"
@@ -39,12 +40,16 @@ function App() {
             body: JSON.stringify(payload),
           })
 
+          if (!res.ok) {
+            throw new Error(`Login failed with status ${res.status}`);
+          }
           await res.json()
         }
+        setLoginComplete(true);
       } catch (err) {
-        console.error("Login request failed:", err)
-      } finally {
-        setLoginComplete(true)
+        console.error("Login request failed:", err);
+        localStorage.removeItem("clerkUserId");
+        setLoginComplete(false);
       }
     }
 
@@ -53,7 +58,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-indigo-50 to-cyan-50">
-      <Router>
+      <Router basename="/">
         <SignedIn>{loginComplete && <Navbar />}</SignedIn>
 
         <Routes>
@@ -116,6 +121,8 @@ function App() {
               </>
             }
           />
+          <Route path="/sso-callback" element={<Navigate to="/" replace />} />
+          <Route path="//sso-callback" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
     </div>
