@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { SignIn, SignedIn, SignedOut } from "@clerk/clerk-react";
+import { SignIn, SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
 import Navbar from "./components/Navbar";
-import Dashboard from "./components/Dashboard";
+import Home from "./components/Home";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -60,7 +60,7 @@ function App() {
           element={
             <>
               <SignedIn>
-                {loginComplete ? <Dashboard /> : <p>Logging in...</p>}
+                {loginComplete ? <Home /> : <p>Logging in...</p>}
               </SignedIn>
               <SignedOut>
                 <div className="min-h-screen flex items-center justify-center">
